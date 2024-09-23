@@ -1,0 +1,122 @@
+import React from "react";
+import { FaUser, FaEnvelope, FaPhone, FaClock, FaMapMarkerAlt, FaTachometerAlt } from "react-icons/fa";
+
+const BikeDetailsPage = () => {
+  const bikeDetails = {
+    id: 1,
+    title: "Vintage Harley-Davidson",
+    price: 15000,
+    status: "Well-maintained",
+    description: "Classic 1960 Harley-Davidson in excellent condition. This vintage beauty has been lovingly restored and maintained, offering a piece of motorcycle history. Its powerful engine purrs like new, and the chrome still shines brilliantly. Perfect for collectors or enthusiasts looking for an authentic riding experience.",
+    images: [
+      "https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "https://images.unsplash.com/photo-1558980394-4c7c9299fe96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "https://images.unsplash.com/photo-1611241443322-b5575980ecb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    ],
+    specifications: {
+      engine: "1200cc V-Twin",
+      transmission: "4-Speed Manual",
+      fuelType: "Gasoline",
+      year: 1960,
+      color: "Black and Chrome"
+    },
+    distanceTraveled: 45000,
+    address: "123 Vintage Lane, Classic City, CC 12345",
+    postingTime: "9 months ago",
+    owner: {
+      name: "John Doe",
+      email: "john@example.com",
+      phone: "+1 234 567 8900",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+    }
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">{bikeDetails.title}</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <div className="mb-6">
+            <img
+              src={bikeDetails.images[0]}
+              alt={bikeDetails.title}
+              className="w-full h-96 object-cover rounded-lg shadow-lg"
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {bikeDetails.images.slice(1).map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`${bikeDetails.title} - ${index + 2}`}
+                className="w-full h-32 object-cover rounded-lg shadow-md"
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-2xl font-semibold mb-4">Details</h2>
+            <p className="text-gray-700 mb-4">{bikeDetails.description}</p>
+            <p className="text-2xl font-bold text-blue-600 mb-2">${bikeDetails.price.toLocaleString()}</p>
+            <p className="text-lg font-semibold text-green-600 mb-4">{bikeDetails.status}</p>
+            
+            <h3 className="text-xl font-semibold mb-2">Specifications</h3>
+            <ul className="list-disc list-inside mb-4">
+              {Object.entries(bikeDetails.specifications).map(([key, value]) => (
+                <li key={key} className="text-gray-700">
+                  <span className="font-semibold">{key}:</span> {value}
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex items-center mb-2">
+              <FaTachometerAlt className="text-gray-600 mr-2" />
+              <span className="text-gray-700">{bikeDetails.distanceTraveled.toLocaleString()} miles traveled</span>
+            </div>
+
+            <div className="flex items-center mb-2">
+              <FaMapMarkerAlt className="text-gray-600 mr-2" />
+              <span className="text-gray-700">{bikeDetails.address}</span>
+            </div>
+
+            <div className="flex items-center mb-4">
+              <FaClock className="text-gray-600 mr-2" />
+              <span className="text-gray-700">Posted {bikeDetails.postingTime}</span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold mb-4">Owner Information</h2>
+            <div className="flex items-center mb-4">
+              <img
+                src={bikeDetails.owner.image}
+                alt={bikeDetails.owner.name}
+                className="w-16 h-16 rounded-full object-cover mr-4"
+              />
+              <div>
+                <p className="font-semibold text-lg">{bikeDetails.owner.name}</p>
+                <p className="text-gray-600">Bike Enthusiast</p>
+              </div>
+            </div>
+            <div className="mb-2">
+              <FaEnvelope className="inline-block mr-2 text-gray-600" />
+              <span className="text-gray-700">{bikeDetails.owner.email}</span>
+            </div>
+            <div className="mb-4">
+              <FaPhone className="inline-block mr-2 text-gray-600" />
+              <span className="text-gray-700">{bikeDetails.owner.phone}</span>
+            </div>
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 w-full">
+              Contact Owner
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BikeDetailsPage;

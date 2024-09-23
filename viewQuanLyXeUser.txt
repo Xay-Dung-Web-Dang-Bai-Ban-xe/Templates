@@ -1,0 +1,230 @@
+import React, { useState } from "react";
+import { FaUser, FaEnvelope, FaPhone, FaClock, FaMapMarkerAlt, FaTachometerAlt, FaMotorcycle, FaPlus, FaBell, FaWallet, FaEdit, FaHistory, FaComments, FaLock, FaSignOutAlt, FaTrash } from "react-icons/fa";
+
+const UserProfilePage = () => {
+  const user = {
+    name: "John Doe",
+    email: "john@example.com",
+    phone: "+1 234 567 8900",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+    accountBalance: 5000
+  };
+
+  const sidebarItems = [
+    { icon: FaPlus, text: "Create a new post" },
+    { icon: FaMotorcycle, text: "Your bike" },
+    { icon: FaHistory, text: "Your posts" },
+    { icon: FaBell, text: "Notifications" },
+    { icon: FaWallet, text: "Top up balance" },
+    { icon: FaEdit, text: "Edit profile" },
+    { icon: FaHistory, text: "Transaction History" },
+    { icon: FaComments, text: "Messages" },
+    { icon: FaLock, text: "Change Password" },
+    { icon: FaSignOutAlt, text: "Logout" }
+  ];
+
+  const userPosts = [
+    { id: 1, title: "My first bike ride", date: "2023-05-01" },
+    { id: 2, title: "Mountain trail adventure", date: "2023-05-15" },
+    { id: 3, title: "City night ride", date: "2023-05-30" }
+  ];
+
+  const [bikes, setBikes] = useState([
+    { id: 1, name: "Mountain Bike", model: "Trek Fuel EX 9.8", year: 2022 },
+    { id: 2, name: "Road Bike", model: "Specialized Tarmac SL7", year: 2021 },
+    { id: 3, name: "City Bike", model: "Cannondale Quick 3", year: 2023 }
+  ]);
+
+  const [showBikes, setShowBikes] = useState(false);
+  const [editingBike, setEditingBike] = useState(null);
+  const [newBike, setNewBike] = useState({ name: "", model: "", year: "" });
+
+  const handleEditBike = (bike) => {
+    setEditingBike({ ...bike });
+  };
+
+  const handleUpdateBike = () => {
+    setBikes(bikes.map(bike => bike.id === editingBike.id ? editingBike : bike));
+    setEditingBike(null);
+  };
+
+  const handleDeleteBike = (id) => {
+    setBikes(bikes.filter(bike => bike.id !== id));
+  };
+
+  const handleAddBike = () => {
+    const id = Math.max(...bikes.map(bike => bike.id)) + 1;
+    setBikes([...bikes, { ...newBike, id }]);
+    setNewBike({ name: "", model: "", year: "" });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-8 flex">
+      <div className="w-1/4 bg-white rounded-lg shadow-md p-6 mr-8">
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src={user.image}
+            alt={user.name}
+            className="w-32 h-32 rounded-full object-cover mb-4"
+          />
+          <h2 className="text-2xl font-semibold">{user.name}</h2>
+          <p className="text-gray-600">{user.email}</p>
+          <p className="text-gray-600">{user.phone}</p>
+          <div className="mt-4 bg-blue-100 rounded-full px-4 py-2">
+            <span className="font-semibold">Balance: </span>
+            <span className="text-blue-600 font-bold">${user.accountBalance.toLocaleString()}</span>
+          </div>
+        </div>
+        <ul>
+          {sidebarItems.map((item, index) => (
+            <li key={index} className="mb-2">
+              <button 
+                className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center"
+                onClick={() => item.text === "Your bike" && setShowBikes(true)}
+              >
+                <item.icon className="mr-3 text-gray-600" />
+                <span>{item.text}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="w-3/4 bg-white rounded-lg shadow-md p-6">
+        {showBikes ? (
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Your Bikes</h2>
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold mb-2">Add New Bike</h3>
+              <div className="flex space-x-4">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="border rounded px-2 py-1"
+                  value={newBike.name}
+                  onChange={(e) => setNewBike({ ...newBike, name: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Model"
+                  className="border rounded px-2 py-1"
+                  value={newBike.model}
+                  onChange={(e) => setNewBike({ ...newBike, model: e.target.value })}
+                />
+                <input
+                  type="number"
+                  placeholder="Year"
+                  className="border rounded px-2 py-1"
+                  value={newBike.year}
+                  onChange={(e) => setNewBike({ ...newBike, year: e.target.value })}
+                />
+                <button
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  onClick={handleAddBike}
+                >
+                  Add Bike
+                </button>
+              </div>
+            </div>
+            <ul className="space-y-4">
+              {bikes.map((bike) => (
+                <li key={bike.id} className="border rounded p-4">
+                  {editingBike && editingBike.id === bike.id ? (
+                    <div className="flex space-x-4">
+                      <input
+                        type="text"
+                        className="border rounded px-2 py-1"
+                        value={editingBike.name}
+                        onChange={(e) => setEditingBike({ ...editingBike, name: e.target.value })}
+                      />
+                      <input
+                        type="text"
+                        className="border rounded px-2 py-1"
+                        value={editingBike.model}
+                        onChange={(e) => setEditingBike({ ...editingBike, model: e.target.value })}
+                      />
+                      <input
+                        type="number"
+                        className="border rounded px-2 py-1"
+                        value={editingBike.year}
+                        onChange={(e) => setEditingBike({ ...editingBike, year: e.target.value })}
+                      />
+                      <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        onClick={handleUpdateBike}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="text-lg font-semibold">{bike.name}</h3>
+                        <p className="text-gray-600">{bike.model} - {bike.year}</p>
+                      </div>
+                      <div className="space-x-2">
+                        <button
+                          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                          onClick={() => handleEditBike(bike)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                          onClick={() => handleDeleteBike(bike.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold mb-6">Welcome, {user.name}!</h1>
+            <p className="text-gray-700 mb-4">This is your profile dashboard. Here you can manage your account, create new posts, view your bikes, and more.</p>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-blue-50 rounded-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
+                <ul>
+                  <li className="mb-2">
+                    <button className="text-blue-600 hover:underline">Create a new post</button>
+                  </li>
+                  <li className="mb-2">
+                    <button className="text-blue-600 hover:underline" onClick={() => setShowBikes(true)}>View your bikes</button>
+                  </li>
+                  <li className="mb-2">
+                    <button className="text-blue-600 hover:underline">Check notifications</button>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-green-50 rounded-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">Account Summary</h3>
+                <p><span className="font-semibold">Total Posts:</span> {userPosts.length}</p>
+                <p><span className="font-semibold">Bikes Listed:</span> {bikes.length}</p>
+                <p><span className="font-semibold">Messages:</span> 5 unread</p>
+              </div>
+            </div>
+            <div className="mt-8">
+              <h3 className="text-2xl font-semibold mb-4">Your Posts</h3>
+              <ul className="divide-y divide-gray-200">
+                {userPosts.map((post) => (
+                  <li key={post.id} className="py-4">
+                    <div className="flex justify-between">
+                      <p className="text-lg font-medium text-gray-900">{post.title}</p>
+                      <p className="text-sm text-gray-500">{post.date}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default UserProfilePage;

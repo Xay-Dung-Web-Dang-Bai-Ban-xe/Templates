@@ -1,0 +1,165 @@
+import React, { useState } from "react";
+import { FaUsers, FaNewspaper, FaExchangeAlt, FaFilter, FaBox, FaBullhorn, FaChartLine, FaShieldAlt, FaBell, FaHeadset, FaCog, FaLock, FaSignOutAlt } from "react-icons/fa";
+
+const AdminDashboard = () => {
+  const [activeView, setActiveView] = useState("users");
+
+  const sidebarItems = [
+    { icon: FaUsers, text: "Users", view: "users" },
+    { icon: FaNewspaper, text: "Posts", view: "posts" },
+    { icon: FaExchangeAlt, text: "Transactions", view: "transactions" },
+    { icon: FaFilter, text: "Category & Filter", view: "categories" },
+    { icon: FaBox, text: "Package and Promotion", view: "packages" },
+    { icon: FaChartLine, text: "Site Analytics", view: "analytics" },
+    { icon: FaShieldAlt, text: "Content Moderation", view: "moderation" },
+    { icon: FaBell, text: "Notifications", view: "notifications" },
+    { icon: FaHeadset, text: "Support & Feedback", view: "support" },
+    { icon: FaCog, text: "System Settings", view: "settings" },
+    { icon: FaLock, text: "Security and Access Control", view: "security" },
+    { icon: FaSignOutAlt, text: "Logout", view: "logout" }
+  ];
+
+  const renderView = () => {
+    switch (activeView) {
+      case "users":
+        return <UserManagement />;
+      case "posts":
+        return <PostManagement />;
+      case "transactions":
+        return <TransactionManagement />;
+      case "categories":
+        return <CategoryManagement />;
+      case "packages":
+        return <PackageManagement />;
+      case "analytics":
+        return <SiteAnalytics />;
+      case "moderation":
+        return <ContentModeration />;
+      case "notifications":
+        return <NotificationManagement />;
+      case "support":
+        return <SupportFeedback />;
+      case "settings":
+        return <SystemSettings />;
+      case "security":
+        return <SecurityAccessControl />;
+      case "logout":
+        return <Logout />;
+      default:
+        return <div>Select a view from the sidebar</div>;
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <div className="w-64 bg-white shadow-md">
+        <div className="p-4">
+          <h2 className="text-2xl font-semibold text-gray-800">Admin Dashboard</h2>
+        </div>
+        <nav className="mt-4">
+          {sidebarItems.map((item, index) => (
+            <button
+              key={index}
+              className={`w-full text-left px-4 py-2 flex items-center space-x-2 hover:bg-gray-200 ${activeView === item.view ? 'bg-gray-200' : ''}`}
+              onClick={() => setActiveView(item.view)}
+            >
+              <item.icon className="text-gray-600" />
+              <span>{item.text}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
+      <div className="flex-1 p-10 overflow-auto">
+        <h1 className="text-3xl font-bold mb-6">{sidebarItems.find(item => item.view === activeView)?.text}</h1>
+        {renderView()}
+      </div>
+    </div>
+  );
+};
+
+const UserManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">User Management</h2>
+    <p>Here you can manage user accounts, permissions, and activities.</p>
+  </div>
+);
+
+const PostManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Post Management</h2>
+    <p>Manage and moderate user posts, comments, and content.</p>
+  </div>
+);
+
+const TransactionManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Transaction Management</h2>
+    <p>View and manage user transactions, payments, and financial records.</p>
+  </div>
+);
+
+const CategoryManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Category & Filter Management</h2>
+    <p>Create and manage categories and filters for posts and content.</p>
+  </div>
+);
+
+const PackageManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Package and Promotion Management</h2>
+    <p>Create and manage subscription packages and promotional offers.</p>
+  </div>
+);
+
+const SiteAnalytics = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Site Analytics</h2>
+    <p>View site traffic, user engagement, and other important metrics.</p>
+  </div>
+);
+
+const ContentModeration = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Content Moderation</h2>
+    <p>Review and moderate user-generated content to ensure community guidelines are followed.</p>
+  </div>
+);
+
+const NotificationManagement = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Notification Management</h2>
+    <p>Manage system notifications and user communication preferences.</p>
+  </div>
+);
+
+const SupportFeedback = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Support & Feedback</h2>
+    <p>Manage user support tickets and review user feedback.</p>
+  </div>
+);
+
+const SystemSettings = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">System Settings</h2>
+    <p>Configure global system settings and preferences.</p>
+  </div>
+);
+
+const SecurityAccessControl = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Security and Access Control</h2>
+    <p>Manage admin access, roles, and security settings.</p>
+  </div>
+);
+
+const Logout = () => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-xl font-semibold mb-4">Logout</h2>
+    <p>Are you sure you want to log out?</p>
+    <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Confirm Logout</button>
+  </div>
+);
+
+export default AdminDashboard;
